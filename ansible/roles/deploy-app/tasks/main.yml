@@ -9,7 +9,7 @@
   tags: deploy
 
 - name: Chekout app repository
-  git: repo=https://github.com/hicapacity/nodejs-examples.git clone=yes dest=~/techfriday/nodejs-examples
+  git: repo=https://github.com/hicapacity/nodejs-examples.git dest=~/techfriday/nodejs-examples
   tags: deploy
 
 - name: "Check list of Node.js apps running."
