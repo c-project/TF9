@@ -1,0 +1,31 @@
+--- 
+- name: Ensure required packages are installed for Java 7
+  apt: name={{item}} state=latest update_cache=yes
+  with_items:
+    - python-software-properties
+  tags: java7
+
+- name: Add Java repository to sources
+  action: apt_repository repo='ppa:webupd8team/java'
+  tags: java7
+
+- name: Autoaccept license for Java
+  action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+  tags: java7
+
+- name: Update APT package cache
+  action: apt update_cache=yes
+  tags: java7
+
+- name: Install Java 7
+  action: apt pkg=oracle-java7-installer state=latest install_recommends=yes
+  tags: java7
+
+- name: Set Java 7 Env
+  action: apt pkg=oracle-java7-set-default state=latest install_recommends=yes
+  tags: java7
+
+- name: Set JAVA_HOME
+  lineinfile: dest=/etc/environment insertafter=EOF state=present regexp=JAVA_HOME
+              line="JAVA_HOME=/usr/lib/jvm/java-7-oracle"
+  tags: java7

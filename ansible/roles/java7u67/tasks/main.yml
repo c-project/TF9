@@ -1,0 +1,28 @@
+---
+
+- name: Copy and uncompress jre 7u67
+  unarchive: src=server-jre-7u67-linux-x64.gz dest=/usr/lib/jvm
+  tags:
+    - java7u67
+
+- name: Say system about new java
+  action: shell update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.7.0_67/bin/java" 1
+  tags:
+    - java7u67
+
+- name: Make new java as default
+  action: shell update-alternatives --set java /usr/lib/jvm/jdk1.7.0_67/bin/java
+  tags:
+    - java7u67
+
+- name: Set JAVA_HOME to java 7u67
+  lineinfile: dest=/etc/environment insertafter=EOF state=present regexp=JAVA_HOME
+              line="JAVA_HOME=/usr/lib/jvm/jdk1.7.0_67"
+  tags:
+    - java7u67
+
+- name: Set correct environment variables
+  copy: src=jdk.sh dest=/etc/profile.d
+  tags:
+    - java7u67
+

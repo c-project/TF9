@@ -1,0 +1,13 @@
+# Tasks bellow add add ability to remote connect to mysql. For REST API tests only
+
+- name: Add permission to remote connection for user
+  mysql_user: name={{db_user}} host='%' password={{db_password}} priv={{db_name}}.*:ALL state=present
+  tags: mysql
+
+- name: Allow external connections to mysql
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^(bind-address\t\t=\s127.0.0.1)" line="#\1" backup=yes backrefs=yes
+  tags: mysql
+
+- name: Restart MySQL to apply changes
+  service: name=mysql state=restarted
+  tags: mysql

@@ -1,0 +1,24 @@
+---
+- stat: path=~/techfriday/nodejs-examples
+  register: path_to_delete
+  tags: deploy
+
+- name: Delete a directory
+  file: path=~/techfriday/nodejs-examples recurse=yes state=directory
+  when: path_to_delete.stat.isdir is defined and path_to_delete.stat.isdir == true
+  tags: deploy
+
+- name: Chekout app repository
+  git: repo=https://github.com/hicapacity/nodejs-examples.git clone=yes dest=~/techfriday/nodejs-examples
+  tags: deploy
+
+- name: "Check list of Node.js apps running."
+  shell: ~/.node/bin/forever list
+  register: forever_list
+  changed_when: false
+  tags: deploy
+
+- name: "Start example Node.js app."
+  command: ~/.node/bin/forever start ~/techfriday/nodejs-examples/hello_world/hello_world.js
+  when: "forever_list.stdout.find('~/techfriday/nodejs-examples/hello_world/hello_world.js') == -1"
+  tags: deploy

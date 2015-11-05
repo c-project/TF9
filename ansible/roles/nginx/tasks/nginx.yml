@@ -1,0 +1,23 @@
+---
+- name: Install nginx
+  apt: name=nginx
+  tags: nginx
+
+- name: Copy SSL Cert
+  copy: src={{item}} dest=/var/lib/tomcat7/conf/{{item}}
+  with_items:
+    - demo.crt
+    - demo_nopass.rsa
+  tags: nginx
+
+- name: Copy nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/qpf
+  tags: nginx
+
+- name: Enable site
+  file: path=/etc/nginx/sites-enabled/qpf state=link src=/etc/nginx/sites-available/qpf force=yes
+  tags: nginx
+
+- name: Restart nginx
+  service: name=nginx state=restarted
+  tags: nginx

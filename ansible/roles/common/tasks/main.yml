@@ -1,0 +1,12 @@
+---
+- name: Just common task
+  raw: apt-get update
+  tags: common
+
+# - name: Install python modules for ansible
+#   raw: apt-get update && apt-get install -y python-software-properties python-apt python-pycurl software-properties-common wget sudo vim curl
+#   tags: common
+
+- name: Install common modules
+  raw: apt-get update && apt-get install -y ntp git vim mc htop unzip net-tools
+  tags: common

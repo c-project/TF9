@@ -1,0 +1,30 @@
+---
+- name: Install NodeJS
+  apt: name=nodejs-legacy state=latest
+  tags: nodejs
+
+# - name: fix NodeJS
+#   raw: ln -s /usr/bin/nodejs /usr/local/bin/node
+#   tags: nodejs
+
+- name: Install NPM
+  apt: name=npm state=latest
+  tags: nodejs
+
+- name: fix NodeJS
+  sudo: no
+  raw: echo prefix = ~/.node >> ~/.npmrc &&  echo 'export PATH=$PATH:$HOME/.node/bin' >> ~/.bashrc
+  tags: nodejs
+
+- name: source .bashrc
+  sudo: no
+  shell: source ~/.bashrc
+  args:
+    executable: /bin/bash
+  tags: nodejs
+
+- name: "Install forever (to run Node.js app)."
+  sudo: no
+  raw: npm install forever -g
+  tags: deploy
+

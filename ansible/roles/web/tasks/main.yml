@@ -1,0 +1,13 @@
+---
+- name: setup nginx
+  include: nginx.yml
+
+- name: setup firewall
+  include: firewall.yml 
+  # vars:
+  #   - firewall_allow:
+  #     - 80
+  #     - 8000
+
+- name: setup NodeJS
+  include: nodejs.yml

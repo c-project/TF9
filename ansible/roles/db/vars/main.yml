@@ -1,0 +1,5 @@
+---
+mysql_root_password: root123
+db_name: techfriday
+db_user: techfriday
+db_password: techfriday

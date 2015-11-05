@@ -1,0 +1,8 @@
+[web]
+vagrant.local ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+[db]
+vagrant.local ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+
+[all:vars]
+server_name=vagrant
+vagrant_box=true

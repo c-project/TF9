@@ -1,0 +1,31 @@
+---
+- name: apply common configuration to all nodes
+  hosts: all
+  sudo: yes
+  roles:
+    - common
+
+
+- name: Setup web-server
+  hosts: web
+  sudo: yes
+  vars:
+    firewall_allow:
+      - 22
+      - 80
+      - 8000
+  roles:
+    - web
+
+- name: Setup DB instance
+  hosts: db
+  sudo: yes
+  roles:
+    - db
+    - db-remote
+
+- name: Install Application
+  hosts: web
+  sudo: no
+  roles:
+    - deploy-app

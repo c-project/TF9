@@ -1,0 +1,20 @@
+---
+- name: Allow incoming traffic
+  ufw: to_port={{item}} direction=in proto=tcp rule=allow state=enabled
+  with_items: firewall_allow
+  tags: firewall
+
+- name: Allow outgoing traffic
+  ufw: to_port={{item}} direction=out proto=tcp rule=allow state=enabled
+  with_items: firewall_allow
+  tags: firewall
+
+- name: Deny incoming traffic
+  ufw: to_port={{item}} direction=out proto=any rule=deny state=enabled
+  with_items: firewall_deny
+  tags: firewall
+
+- name: Deny outgoing traffic
+  ufw: to_port={{item}} direction=out proto=any rule=deny state=enabled
+  with_items: firewall_deny
+  tags: firewall
